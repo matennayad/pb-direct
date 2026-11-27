@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://objects.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ניהול הקטלוג · PB DIRECT</title>
+<link rel="icon" href="../img/logo-mark.png">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<header class="bar">
+  <div class="wrap bar__in">
+    <img src="../img/logo.png" alt="PB DIRECT" class="bar__logo" width="96" height="48">
+    <h1 class="bar__title">ניהול הקטלוג</h1>
+    <p class="bar__status" id="status" role="status"></p>
+    <button type="button" class="btn btn--ghost btn--sm" id="logout" hidden>התנתקות</button>
+  </div>
+</header>
+
+<div class="notice" id="public-warning" hidden>
+  <div class="wrap">המאגר עדיין <b>ציבורי</b>: מחירים ושמות מקור שתשמרו כאן יהיו גלויים לכל מי שנכנס למאגר ב-GitHub. כדאי להעביר את המאגר לפרטי לפני שמזינים מחירים אמיתיים.</div>
+</div>
+
+<main class="wrap">
+  <section class="login" id="login" aria-labelledby="login-title">
+    <h2 id="login-title" class="h2">כניסה לניהול</h2>
+    <p>הדף קורא וכותב את נתוני הקטלוג ישירות במאגר ב-GitHub. כדי להיכנס צריך טוקן גישה (Fine-grained token) עם הרשאת <b>Contents: Read and write</b> למאגר הזה בלבד. הטוקן נשמר רק בדפדפן הזה.</p>
+    <form id="login-form" class="login__form">
+      <label class="field">טוקן GitHub<input id="token" type="password" autocomplete="off" required dir="ltr" spellcheck="false"></label>
+      <details class="login__more">
+        <summary>הגדרות מתקדמות (בדרך כלל לא צריך לשנות)</summary>
+        <p>לאיזה מאגר ב-GitHub הדף מתחבר: שם המשתמש, שם המאגר והענף שבו שמורים נתוני הקטלוג. הערכים כבר ממולאים נכון.</p>
+        <div class="login__repo">
+          <label class="field">בעלים<input id="cfg-owner" dir="ltr" spellcheck="false"></label>
+          <label class="field">מאגר<input id="cfg-repo" dir="ltr" spellcheck="false"></label>
+          <label class="field">ענף<input id="cfg-branch" dir="ltr" spellcheck="false"></label>
+        </div>
+      </details>
+      <button class="btn btn--primary" type="submit">כניסה</button>
+      <p class="login__error" id="login-error" role="alert"></p>
+    </form>
+  </section>
+
+  <section class="app" id="app" hidden aria-label="רשימת המוצרים">
+    <div class="tools">
+      <label class="tools__search"><span class="vh">חיפוש</span><input id="q" type="search" placeholder="חיפוש לפי מק״ט, דגם, שם מקורי או מילה"></label>
+      <label><span class="vh">קטגוריה</span><select id="cat"><option value="">כל הקטגוריות</option></select></label>
+      <label class="check"><input type="checkbox" id="only-changed"> רק מוצרים ששונו</label>
+      <label class="check"><input type="checkbox" id="only-priced"> רק עם מחיר</label>
+      <p class="tools__count" id="count" aria-live="polite"></p>
+    </div>
+    <div class="pdfs" role="group" aria-label="קטלוג PDF">
+      <b>קטלוג PDF</b>
+      <button type="button" class="btn btn--ghost btn--sm" data-pdf="pdf/catalog.pdf">הורדה בלי מחירים</button>
+      <button type="button" class="btn btn--ghost btn--sm" data-pdf="pdf/catalog-prices.pdf">הורדה עם מחירים (פנימי)</button>
+      <span class="pdfs__note" id="pdf-status">כ-50MB כל קובץ</span>
+    </div>
+    <p class="hint">לחיצה על טקסט בעמודה "באתר" פותחת אותו לעריכה. העמודה "מקור הספק" לקריאה בלבד. מחיר שנשאר ריק לא יוצג באתר.</p>
+    <ol class="items" id="items"></ol>
+    <nav class="pager" id="pager" aria-label="עמודים"></nav>
+  </section>
+</main>
+
+<div class="savebar" id="savebar" hidden>
+  <div class="wrap savebar__in">
+    <p id="dirty-count"></p>
+    <button type="button" class="btn btn--ghost" id="discard">ביטול השינויים</button>
+    <button type="button" class="btn btn--primary" id="save">שמירת שינויים</button>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
